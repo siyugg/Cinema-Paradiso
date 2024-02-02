@@ -1,4 +1,7 @@
 <?php
+
+require "errors.php";
+require "db_connection.php";
 session_start();
 
 // Define variables to hold the form input and results
@@ -7,40 +10,22 @@ $result = array();
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Database connection details
-    $host = 'localhost';
-    $username = 'f32ee';
-    $password = 'password';
-    $database = 'project';
-
-    // Connect to the database
-    $conn = new mysqli($host, $username, $password, $database);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     // Retrieve bookings based on the provided email
     $email = $_POST['email'];
 
-    // Use prepared statements to prevent SQL injection
-    $viewBookingsQuery = $conn->prepare("SELECT item_name, quantity, price, image, description FROM checkout WHERE email = ?");
+    $viewBookingsQuery = $conn->prepare("SELECT item_name, quantity, price, description FROM checkout WHERE email = ?");
     $viewBookingsQuery->bind_param("s", $email);
     $viewBookingsQuery->execute();
 
-    // Bind result variables
-    $viewBookingsQuery->bind_result($item_name, $quantity, $price, $image, $description);
+    $viewBookingsQuery->bind_result($item_name, $quantity, $price, $description);
 
     // Fetch results
     while ($viewBookingsQuery->fetch()) {
-        $result[] = array('item_name' => $item_name, 'quantity' => $quantity, 'price' => $price, 'image' => $image, 'description' => $description);
+        $result[] = array('item_name' => $item_name, 'quantity' => $quantity, 'price' => $price, 'description' => $description);
     }
 
-    // Close the prepared statement
     $viewBookingsQuery->close();
-
-    // Close the database connection
     $conn->close();
 }
 ?>
@@ -79,24 +64,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if (is_array($result) && count($result) > 0): ?>
             <h2>Order Summary for <?php echo $email; ?></h2>
             <table class="booking">
-        <tr>
-            <td>Item</td>
-            <td>Description</td>
-            <td>Quantity</td>
-            <td>Price</td>
-            
-        </tr>
-        <?php foreach ($result as $row): ?>
-            <tr>
-                <td><?php echo $row['item_name']; ?></td>
-                <td><?php echo $row['description']; ?></td>
-                <td><?php echo $row['quantity']; ?></td>
-                <td>$<?php echo $row['price']; ?></td>
-                
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php endif; ?>
+                <tr>
+                    <td>Item</td>
+                    <td>Description</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                    
+                </tr>
+                <?php foreach ($result as $row): ?>
+                <tr>
+                    <td><?php echo $row['item_name']; ?></td>
+                    <td><?php echo $row['description']; ?></td>
+                    <td><?php echo $row['quantity']; ?></td>
+                    <td>$<?php echo $row['price']; ?></td>
+                    
+                </tr>
+                <?php endforeach; ?>
+            </table>
+            <?php endif; ?>
         </div>
     </div>
 

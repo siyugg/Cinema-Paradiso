@@ -16,10 +16,6 @@ $movie = $resultMovie->fetch_assoc();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $formType = $_POST["form_type"];
     switch ($formType) {
-        case "create_movie":
-            create_movie($conn);
-            echo "test";
-            break;
         case "create_new_movie":
             if (isset($_FILES["movieImage"])) {
                 if ($_FILES["movieImage"]["error"] == 0) {
@@ -31,10 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             break;
         case "create-new-slot":
-            // Corrected syntax error here
-            // echo $_POST['slotMovie'] . $_POST['slotDate'] . $_POST['slotLocation'] . $_POST['slotTime'];
             CreateSlot($conn, $_POST["slotMovie"], $_POST["slotDate"], $_POST["slotLocation"], $_POST["slotTime"]);
-            break; // Added break statement
+            break; 
     }
 }
 ?>
@@ -49,12 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <form id="initialize-form" method="POST">
-        <h1 id="wrapper">Intialize Movie </h1>
-        <input type="hidden" name="form_type" value="create_movie" id="create_movie">
-    </form>
-    <div><button type="submit" id="submit-button-create-movie">Click me</button></div>
-    <div><br></div>
+    
     <h1>Add New Movie</h1>
     <form id="upload-new-movie-form" method="POST" enctype="multipart/form-data">
         <div id="wrapper">
@@ -86,11 +75,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <select id='slotMovie' name='slotMovie'>
 
             
-            <?php foreach ($resultMovie as $movie) {
-            
-            echo "<option value='" . $movie['MovieID'] . "'> " . $movie['MovieName'] . " </option>";
-            
-        } ?>
+            <?php 
+            foreach ($resultMovie as $movie) {
+                echo "<option value='" . $movie['MovieID'] . "'> " . $movie['MovieName'] . " </option>";
+            } 
+            ?>
             </select>
             
             <label for="slotDate">Date:</label>
@@ -98,11 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label for="slotLocation">Location:</label>
                 <select id="slotLocation" name="slotLocation">
-                    <option value="Central">Central</option>
-                    <option value="East">East</option>
-                    <option value="West">West</option>
-                    <option value="North">North</option>
-                    <option value="South">South</option>
+                    <option value="Yishun">Yishun</option>
+                    <option value="Jurong East">Jurong East</option>
+                    <option value="Orchard">Orchard</option>
+                    <option value="Paya Lebar">Paya Lebar</option>
+                    <option value="VivoCity">VivoCity</option>
                 </select>
             
             <label for="slotTime">Time:</label>

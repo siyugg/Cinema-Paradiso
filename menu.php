@@ -38,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy']) && isset($_POS
                 break; // Stop searching once found
             }
         }
-
         if ($itemDetails !== null) {
             // Add the item to the cart
             for ($i = 0; $i < $quantity; $i++) {
@@ -77,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy']) && isset($_POS
                     <li><a href="locations.html">Locations</a></li>
                     <li><a href="menu.php">Menu</a></li>
                     <li><a href="booking.php">Bookings</a></li>
-                    <li><a href="cart.php"><img src="images/cart.png" alt="images" style="width: 40px; height: 40px;"></a></li>
+                    <li><a href="cart.php"><img src="images/home/cart.png" alt="images" style="width: 40px; height: 40px;"></a></li>
                 </ul>
             </nav>
         </div>
@@ -90,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy']) && isset($_POS
         <div class="tab-content">
             <div id="alacarte" data-tab-content class="active">
                 <h2>A la Carte</h2>
-
                 <table class="menu">
                     <tr>
                         <td>
@@ -107,29 +105,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy']) && isset($_POS
                         </td>
                     </tr>
                     <?php
-                    $count = 0; // Initialize counter
+                        $count = 0; // Initialize counter
 
-                  while ($count < 4 && ($row = $result->fetch_assoc()) !== null) {
-                  echo "<tr>";
-                  echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['MenuImage']) . "' style='width: 200px; height: 200px;' /></td>";
-                  echo "<td>" . $row['MenuDescription'] . "</td>";
-                  echo "<td>$" . number_format($row['MenuPrice'], 2) . "</td>";
-                  echo "<td>";
-                  echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
-                  echo "<input type='hidden' name='buy' value='" . urlencode($row['MenuName']) . "'>";
-                  echo "<input type='number' name='quantity' value='1' min='1' max='10'>";
-                  echo "<input type='submit' value='Add to Cart'>";
-                  echo "</form>";
-                  echo "</td>";
-                  echo "</tr>";
+                        while ($count < 4 && ($row = $result->fetch_assoc()) !== null) {
+                            echo "<tr>";
+                            echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['MenuImage']) . "' style='width: 200px; height: 200px;' /></td>";
+                            echo "<td>" . $row['MenuDescription'] . "</td>";
+                            echo "<td>$" . number_format($row['MenuPrice'], 2) . "</td>";
+                            echo "<td>";
+                            echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
+                            echo "<input type='hidden' name='buy' value='" . urlencode($row['MenuName']) . "'>";
+                            echo "<input type='number' name='quantity' value='1' min='1' max='10'>";
+                            echo "<input type='submit' value='Add to Cart'>";
+                            echo "</form>";
+                            echo "</td>";
+                            echo "</tr>";
 
-                  $count++; // Increment counter
-                  }
-                 ?>
-
-
-
-
+                            $count++; // Increment counter
+                        }
+                    ?>
                 </table>
             </div>
             <div id="combo" data-tab-content>
@@ -150,22 +144,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy']) && isset($_POS
                         </td>
                     </tr>
                     <?php
-                    while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['MenuImage']) . "' style='width: 200px; height: 200px;' /></td>";
-                    echo "<td>" . $row['MenuDescription'] . "</td>";
-                    echo "<td>$" . number_format($row['MenuPrice'], 2) . "</td>";
-                    echo "<td>";
-                    echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
-                    echo "<input type='hidden' name='buy' value='" . urlencode($row['MenuName']) . "'>";
-                    echo "<input type='number' name='quantity' value='1' min='1' max='10'>";
-                    echo "<input type='submit' value='Add to Cart'>";
-                    echo "</form>";
-                    echo "</td>";
-                    echo "</tr>";
-                     }
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td><img src='data:image/jpeg;base64," . base64_encode($row['MenuImage']) . "' style='width: 200px; height: 200px;' /></td>";
+                            echo "<td>" . $row['MenuDescription'] . "</td>";
+                            echo "<td>$" . number_format($row['MenuPrice'], 2) . "</td>";
+                            echo "<td>";
+                            echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
+                            echo "<input type='hidden' name='buy' value='" . urlencode($row['MenuName']) . "'>";
+                            echo "<input type='number' name='quantity' value='1' min='1' max='10'>";
+                            echo "<input type='submit' value='Add to Cart'>";
+                            echo "</form>";
+                            echo "</td>";
+                            echo "</tr>";
+                        }
                     ?>
-
                 </table>
             </div>
         </div>
